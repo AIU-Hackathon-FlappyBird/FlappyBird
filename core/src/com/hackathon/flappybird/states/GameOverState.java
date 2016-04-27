@@ -19,6 +19,7 @@ public class GameOverState extends State {
     int score;
     private ScoreSystem scoreSystem;
     private int replayPositionX, replayPositionY;
+
     protected GameOverState(GameStateManager gameStateManager, int score) {
         super(gameStateManager);
         this.orthographicCamera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -30,9 +31,10 @@ public class GameOverState extends State {
         //this.orthographicCamera.position.set(orthographicCamera.viewportWidth, orthographicCamera.viewportHeight,0);
         this.score = score;
         this.scoreSystem = new ScoreSystem();
-        if (this.scoreSystem.preferences.getInteger("bestScore") < this.score){
-            this.scoreSystem.preferences.putInteger("bestScore", this.score);
-            this.scoreSystem.preferences.flush();
+
+        if(this.scoreSystem.getBestScore() < this.score){
+            this.scoreSystem.setBestScore(this.score);
+            this.scoreSystem.saveBestScore();
         }
 
 
@@ -69,12 +71,13 @@ public class GameOverState extends State {
         spriteBatch.draw(this.background,0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteBatch.draw(this.gameover,(Gdx.graphics.getWidth() - this.gameover.getWidth() * 1.5f) / 2, Gdx.graphics.getHeight() / 2  , this.gameover.getWidth() * 1.5f, this.gameover.getHeight() * 1.5f);
         spriteBatch.draw(this.replayButton,(Gdx.graphics.getWidth() - this.replayButton.getWidth()) / 2, Gdx.graphics.getHeight() / 2 - Y_OFFSET * 1.5f);
-        this.scoreSystem.splitScore(this.score);
+        //this.scoreSystem.splitScore(this.score);
         spriteBatch.draw(this.scoreSystem.zeroth(), 315 , 520);
         spriteBatch.draw(this.scoreSystem.first(), 330,520 );
         spriteBatch.draw(this.scoreSystem.second(),345,520 );
         spriteBatch.draw(this.scoreSystem.thirth(),360,520 );
-        this.scoreSystem.splitScore(this.scoreSystem.preferences.getInteger("bestScore"));
+        //this.scoreSystem.splitScore(this.scoreSystem.preferences.getInteger("bestScore"));
+        this.scoreSystem.splitScore(this.scoreSystem.getBestScore());
         spriteBatch.draw(this.scoreSystem.zeroth(), 315 , 460);
         spriteBatch.draw(this.scoreSystem.first(), 330,460 );
         spriteBatch.draw(this.scoreSystem.second(),345,460 );
