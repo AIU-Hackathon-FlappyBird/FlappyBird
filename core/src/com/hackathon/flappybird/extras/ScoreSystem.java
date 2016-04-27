@@ -66,13 +66,10 @@ public class ScoreSystem {
     public int getBestScore(){
         return this.preferences.getInteger("best score");
     }
-<<<<<<< HEAD
     public void saveBestScore(){
         this.preferences.flush();
     }
-=======
 
->>>>>>> b5271f0e73e9c53956cbb60c0c7171046cd765ab
 
 
 }
